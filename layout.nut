@@ -71,8 +71,8 @@ class UserConfig {
       gamelist.set_rgb(255,255,255);
       gamelist.alpha=255;    
     } else {
-      gamelist.set_rgb(50,50,50);
-      gamelist.alpha=127;    
+      gamelist.set_rgb(100,100,100);
+      gamelist.alpha=100;    
     }
     gamelist.index_offset=i;
 
