@@ -80,18 +80,29 @@ class UserConfig {
 
  }
 
+ fe.ambient_sound = fe.add_sound("last_star_fighter_battle.mp3")
  
  function transition_effects( ttype, var, ttime )
 {
   switch ( ttype )
   {
+    case Transition.StartLayout:
+      fe.ambient_sound.playing = true;
+      break;
     case Transition.ToGame:
+      fe.ambient_sound.playing = false;
       local selectionSound = fe.add_sound("coin.wav")
       selectionSound.playing=true;
+      break;
+    case Transition.FromGame:
+      fe.ambient_sound.playing = true;
       break;
     case Transition.ToNewSelection:
       local selectionSound = fe.add_sound("swosh.wav")
       selectionSound.playing=true;
+      if (!fe.ambient_sound.playing) {
+        fe.ambient_sound.playing = true;
+      }
       break;
   }
   return false;
@@ -99,20 +110,35 @@ class UserConfig {
  
 fe.add_transition_callback( "transition_effects" );
 
- local freeplayleft=fe.add_text("Free Play",0,0,flw,flh*0.03);
+local phrases = ["Up to your old Excalibur tricks again, eh, Centauri?",
+"Greetings, Starfighter. You have been recruited by the Star League to defend the frontier against Xur and the Ko-Dan armada.",
+"Hold it! There's no fleet? No Starfighters, no plan? One ship, you, me, and that's it?",
+"Teriffic. I'm about to get killed a million miles from nowhere with a gung-ho iguana who tells me to relax.",
+"I've always wanted to fight a desperate battle against incredible odds.",
+"Remember, Death Blossom delivers only one massive volley at close range, theoretically.",
+"After all, D.B. has never been tested. It might overload the systems, blow up the ship!",
+"What are you worried about, Grig? Theoretically, we should already be dead!"];
+local phraseIndex = 0;
+local phraseLength = 7;
+
+ local freeplayleft=fe.add_text(phrases[phraseIndex],flw,0,flw*3,flh*0.03);
  freeplayleft.align=Align.Left;
 //  freeplayleft.alpha=85;
- local freeplayright=fe.add_text("Free Play",0,0,flw,flh*0.03);
- freeplayright.align=Align.Right;
+//  local freeplayright=fe.add_text("Free Play",0,0,flw,flh*0.03);
+//  freeplayright.align=Align.Right;
 //  freeplayright.alpha=85;
 //  local inssh=fe.add_text("Instructions",1,(flh*0.94),flw,flh*0.02);
- local help_text=fe.add_text("Play Game [BUTTON1]  -  Quit Game [START1+2]",0,flh*0.97,flw,flh*0.02);
  
  function textTickles(ttime){		
-  local grey=brightrand();
-  freeplayleft.set_rgb(grey,grey,grey);
-  freeplayright.set_rgb(grey,grey,grey);
-  help_text.set_rgb(grey,grey,grey);
+  freeplayleft.x = freeplayleft.x-2;
+  if (freeplayleft.x <= -(freeplayleft.width+flw))
+  {
+    freeplayleft.msg = phrases[++phraseIndex];
+    freeplayleft.x = flw;
+    if (phraseIndex == phraseLength){
+      phraseIndex=-1;
+    }
+  }
  }
  
  function fades(ttype,var,ttime){
@@ -133,6 +159,6 @@ fe.add_transition_callback( "transition_effects" );
   }
  }
  
-//  fe.add_ticks_callback( "textTickles" );
+fe.add_ticks_callback( "textTickles" );
  fe.add_transition_callback( "fades" );
  
