@@ -71,8 +71,8 @@ class UserConfig {
       gamelist.set_rgb(255,255,255);
       gamelist.alpha=255;    
     } else {
-      gamelist.set_rgb(100,100,100);
-      gamelist.alpha=100;    
+      gamelist.set_rgb(165,165,165);
+      gamelist.alpha=175;    
     }
     gamelist.index_offset=i;
 
@@ -128,7 +128,8 @@ local phraseLength = 7;
 //  freeplayright.align=Align.Right;
 //  freeplayright.alpha=85;
 //  local inssh=fe.add_text("Instructions",1,(flh*0.94),flw,flh*0.02);
- 
+local help_text=fe.add_text("Play Game [BUTTON1]  -  Quit Game [START1+2]",0,flh*0.97,flw,flh*0.02);
+
  function textTickles(ttime){		
   freeplayleft.x = freeplayleft.x-2;
   if (freeplayleft.x <= -(freeplayleft.width+flw))
